@@ -10,7 +10,7 @@ git clone https://github.com/CoBogdanM/Cycling-in-Bucharest.git
 ```
 ### 2. Run the code locally
 Run the files in the following order:
-1. [`prepare_street_network_data.py`](prepare_street_network_data.py) -> Data/network_data
+1. [`prepare_street_network_data.py`](prepare_street_network_data.py) -> The file creates the data storage infrastructure and populates the Data/network_data folder. To get the paper's results, overwrite the folder's contents with the zip files from the [`old_network_data`](old_network_data/) folder. 
 2. [`prepare_poi_data.py`](prepare_poi_data.py) -> Data/poi_data
 3. [`prepare_population_data.py`](prepare_population_data.py) -> Data/population_data
 4. [`routing.py`](routing.py) -> Data/results
