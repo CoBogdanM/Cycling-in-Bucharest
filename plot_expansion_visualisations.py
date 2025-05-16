@@ -344,9 +344,8 @@ if __name__ == "__main__":
     prune_quantiles_SUMP = [x/6 for x in list(range(1,7))]
     # Load covers
     
-    with open(analysis_results_pth/f"{placeid}_poi_{poi_source}_Bq_covers.pickle",'rb') as f:
-        covs_GT = pickle.load(f)
-    with open(analysis_results_pth/f"{placeid}_poi_{poi_source}_Bq_cover_mst.pickle",'rb') as f:
+    
+    with open(analysis_results_pth/"40quantiles"/f"{placeid}_poi_{poi_source}_Bq_cover_mst.pickle",'rb') as f:
         covs_MST = pickle.load(f)
     with open(analysis_results_pth/f"{placeid}_poi_{poi_source}_Bq_covers_SUMP.pickle",'rb') as f:
         covs_SUMP = pickle.load(f)
@@ -357,7 +356,9 @@ if __name__ == "__main__":
     squares = create_pop_density_proj(G_carall, G_population_centers, 500)
     pc_population = plot_population_density_squares(plots_pth, squares, map_center, G_carall, placeid, poi_source, prune_measure)
     for res in results:
-        plot_GT_visualizations(map_center, G_carall, res, plots_pth, plotparam, nnids, nodesize_poi, placeid, poi_source, prune_measure, weight_abstract, nodesize_grown)
-        plot_GT_covs(plots_pth, map_center, G_carall, placeid, nnids,nodesize_poi, res, covs_GT, cov_car, prune_measure,squares ,pc_population)
-    plot_MST_covs(plots_pth, map_center, G_carall, placeid, nnids, nodesize_poi, res, covs_MST, cov_car, prune_measure,squares ,pc_population)
-    plot_SUMP_covs(plots_pth,map_center, G_carall, placeid, nnids, nodesize_poi, Gs_bikenetwork, covs_SUMP, cov_car, prune_measure, prune_quantiles_SUMP,squares ,pc_population) 
+        with open(analysis_results_pth/f"{len(res["prune_quantiles"])}quantiles"/f"{placeid}_poi_{poi_source}_Bq_covers.pickle",'rb') as f:
+            covs_GT = pickle.load(f)
+        plot_GT_visualizations(map_center, G_carall, res, plots_pth, plotparam, nnids, nodesize_poi, placeid, poi_source, prune_measure, weight_abstract, nodesize_grown) 
+        plot_GT_covs(plots_pth, map_center, G_carall, placeid, nnids,nodesize_poi, res, covs_GT, cov_car, prune_measure,squares ,pc_population) #TO GET THE SPACIAL COVERAGE PLOTS REMOVE THE ARGUMENT "pc_population" from the call 
+    plot_MST_covs(plots_pth, map_center, G_carall, placeid, nnids, nodesize_poi, res, covs_MST, cov_car, prune_measure,squares ,pc_population) #TO GET THE SPACIAL COVERAGE PLOTS REMOVE THE ARGUMENT "pc_population" from the call
+    plot_SUMP_covs(plots_pth,map_center, G_carall, placeid, nnids, nodesize_poi, Gs_bikenetwork, covs_SUMP, cov_car, prune_measure, prune_quantiles_SUMP,squares ,pc_population) #TO GET THE SPACIAL COVERAGE PLOTS REMOVE THE ARGUMENT "pc_population" from the call

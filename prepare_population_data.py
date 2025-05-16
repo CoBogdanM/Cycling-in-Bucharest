@@ -42,6 +42,6 @@ bucharest_grid_centers_nnids = [ox.distance.nearest_nodes(G_carall_largest, row.
 with open(population_data_pth/f'Bucharest_pdgridcenters_nnidscarall.csv', 'w') as f:
     for item in bucharest_grid_centers_nnids:
         f.write("%s\n" % item)
-bucharest_grid_centers["nnid"] = bucharest_grid_centers_nnids
-bucharest_grid_centers.to_csv(population_data_pth/"Bucharest_population_density_centers.csv")
+bucharest_grid_centers["osmid"] = bucharest_grid_centers_nnids
+bucharest_grid_centers.to_csv(population_data_pth/"Bucharest_population_density_centers_nodes.csv")
 

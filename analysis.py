@@ -135,8 +135,8 @@ def plot_analysis(placeid, poi_source, prune_measure, prune_quantiles, analysis_
     GT_analysis_results = np.genfromtxt(analysis_results_pth/f"{len(prune_quantiles)}quantiles"/filename, delimiter=',', names=True)
     filename = f"{placeid}_poi_{poi_source}_mst.csv"
     MST_analysis_results = np.genfromtxt(analysis_results_pth/f"{len(prune_quantiles)}quantiles"/filename, delimiter=',', names=True)
-    filename = f"{placeid}_poi_{poi_source}_{prune_measure}_SUMP.csv"
-    Existing_analysis_results = np.genfromtxt(analysis_results_pth/filename, delimiter=',', names=True)
+    filename = f"{placeid}_poi_{poi_source}_{prune_measure}SUMP.csv"
+    SUMP_analysis_results = np.genfromtxt(analysis_results_pth/filename, delimiter=',', names=True)
     min_diff = abs(GT_analysis_results["length"][0] - MST_analysis_results["length"])
     quantile_inx = 0
     prune_quantiles = [0] + prune_quantiles
@@ -154,38 +154,56 @@ def plot_analysis(placeid, poi_source, prune_measure, prune_quantiles, analysis_
             key = list(keys_metrics.keys())[index]
             index += 1
             GT_values = np.insert(GT_analysis_results[key], 0, 0)
-            Existing_values = np.insert(Existing_analysis_results[key], 0, 0)
+            SUMP_values = np.insert(SUMP_analysis_results[key], 0, 0)
             if key in ["length", "length_lcc"]:
                 ax.plot(prune_quantiles, GT_values/1000, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key]/1000, MST_analysis_results[key]/1000], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values/1000, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values/1000, **plotparam_analysis["biketrack"])
+                except:
+                    pass
             if key == "poi_coverage":
                 ax.plot(prune_quantiles, GT_values, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key], MST_analysis_results[key]], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values, **plotparam_analysis["biketrack"])
+                except:
+                    pass
             if key == "population_coverage":
                 ax.plot(prune_quantiles, GT_values/1000, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key]/1000, MST_analysis_results[key]/1000], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values/1000, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values/1000, **plotparam_analysis["biketrack"])
+                except:
+                    pass
                 ax.set_ylim(top = Carall_analysis[key]/1000)
             if key == "coverage":
                 ax.plot(prune_quantiles, GT_values, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key], MST_analysis_results[key]], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values, **plotparam_analysis["biketrack"])
+                except:
+                    pass
             if key == "components":
                 ax.plot(prune_quantiles, GT_values, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key], MST_analysis_results[key]], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values, **plotparam_analysis["biketrack"])
+                except:
+                    pass
             if key in ["directness_all_linkwise", "directness_bicycle_car"]:
                 ax.plot(prune_quantiles, GT_values, **plotparam_analysis["bikegrown"])
                 xmin, xmax = ax.get_xlim()
                 ax.plot([xmin, xmax], [MST_analysis_results[key], MST_analysis_results[key]], **plotparam_analysis["mst"])
-                ax.plot(prune_quantiles, Existing_values, **plotparam_analysis["biketrack"])
+                try:
+                    ax.plot(prune_quantiles, SUMP_values, **plotparam_analysis["biketrack"])
+                except:
+                    pass
                 y1 = float(MST_analysis_results[key])
                 ax.plot([xmin, xmax], [1, 1], linewidth = 1, linestyle = "dotted", color = "black")
                 ax.tick_params(axis='y', which='minor', length=2, color='gray', labelsize = 7.5)
@@ -199,7 +217,7 @@ def plot_analysis(placeid, poi_source, prune_measure, prune_quantiles, analysis_
             ax.set_title(keys_metrics[key])
             ax.set_xlabel("Quantile")
     plt.subplots_adjust(top = 0.87, bottom = 0.09, left = 0.05, right = 0.97, wspace = 0.25, hspace = 0.4)
-    fig.savefig(analysis_results_pth/f"{len(prune_quantiles)}quantiles"/f"Analysis_plots.png")
+    fig.savefig(analysis_results_pth/f"{len(prune_quantiles)-1}quantiles"/f"Analysis_plots.png")
         
 if __name__ == "__main__":
     placeid = "Bucharest"
